@@ -113,6 +113,37 @@
 })();
 
 // =========================================================
+// Cursor glow — lightweight ambient light that follows the pointer
+// =========================================================
+(function cursorGlow() {
+  const glow = document.getElementById("cursor-glow");
+  if (!glow) return;
+
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const isFinePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+  if (prefersReducedMotion || !isFinePointer) return;
+
+  let rafId = null;
+  let targetX = 0;
+  let targetY = 0;
+
+  function render() {
+    glow.style.transform = `translate(${targetX}px, ${targetY}px)`;
+    rafId = null;
+  }
+
+  window.addEventListener("mousemove", (e) => {
+    targetX = e.clientX;
+    targetY = e.clientY;
+    glow.classList.add("is-active");
+    if (!rafId) rafId = requestAnimationFrame(render);
+  }, { passive: true });
+
+  window.addEventListener("mouseleave", () => glow.classList.remove("is-active"));
+})();
+
+// =========================================================
 // Close mobile nav after clicking a link
 // =========================================================
 (function closeMobileNavOnClick() {
