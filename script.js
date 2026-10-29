@@ -6,7 +6,7 @@
   if (!el) return;
 
   const roles = [
-    "Frontend Developer",
+    "Web Developer",
     "BS Computer Science Student",
     "HTML, CSS & React Learner",
   ];
